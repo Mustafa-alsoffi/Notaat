@@ -1,0 +1,7 @@
+UI hex colors:
+#5782bb
+#11111
+#fffeec
+# 2a2a2a
+#7b9dca
+#40699f
