@@ -5,9 +5,7 @@ import './UIButton.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-
-      ]); 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   runApp(const MyApp());
 }
 
@@ -16,14 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Notaat',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Notaat Homepage'),
     );
   }
 }
@@ -40,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final parentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Color(0xff535050),
         body: Column(
@@ -47,13 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-          padding: EdgeInsets.symmetric(vertical: 1.5),
                 color: Color(0xff535050),
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.3,
+                width: parentWidth,
                 child: SvgPicture.asset(
                   'assets/Background.svg',
-                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  fit: BoxFit.fitWidth,
                 )),
             Padding(
               padding: const EdgeInsets.only(left: 30),
@@ -97,13 +91,48 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Center(
                 child: UIButton(
+              text: 'Search',
+              textColor: Colors.white,
               alignment: Alignment.center,
               color: Color(0xff7B9DCA),
               height: 40,
+              width: null,
               margin: EdgeInsets.symmetric(horizontal: 50),
             )),
+             Expanded(
+               child: Container(
+                 margin: EdgeInsets.only(left: 30),
+                 alignment: Alignment.bottomLeft,
+                 child: Text('Sign up now to start \nsharing, selling and buying notes!',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500)),
+               ),
+             ),
+             SizedBox(height: 20)
           ],
         ),
-        persistentFooterButtons: []);
+        persistentFooterButtons: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            UIButton(
+              text: 'Login',
+              textColor: Colors.white,
+              alignment: Alignment.center,
+              color: Color(0xff7B9DCA),
+              height: 40,
+              width: parentWidth * 0.3,
+            ),
+            SizedBox(width: parentWidth * 0.2),
+            UIButton(
+              text: 'Sign up',
+              textColor: Color(0xff535050),
+              alignment: Alignment.center,
+              color: Colors.white,
+              height: 40,
+              width: parentWidth * 0.3,
+            )
+          ])
+        ]);
   }
 }
