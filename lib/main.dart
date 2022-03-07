@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
-import './UIButton.dart';
+import './Components/notaat_material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,14 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-                color: Color(0xff535050),
-                width: parentWidth,
-                child: SvgPicture.asset(
-                  'assets/Background.svg',
+            SafeArea(
+              child: Container(
+                  color: Color(0xff535050),
+                  width: parentWidth,
+                  height: MediaQuery.of(context).size.width * 0.5,
+                  child: SvgPicture.asset(
+                    'assets/Background.svg',
                   height: MediaQuery.of(context).size.height * 0.3,
-                  fit: BoxFit.fitWidth,
-                )),
+                    fit: BoxFit.fitWidth,
+                  )),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Column(
