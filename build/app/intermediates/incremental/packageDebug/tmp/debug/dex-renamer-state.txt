@@ -1,0 +1,4 @@
+#Sun Mar 06 02:27:43 SGT 2022
+base.0=C\:\\Users\\alsof\\Desktop\\Google Competition\\Notaat\\notaat\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

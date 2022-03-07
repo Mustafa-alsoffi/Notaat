@@ -4,14 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 void main() {
   runApp(const MyApp());
 }
-
+// Hello world
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Dem',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
