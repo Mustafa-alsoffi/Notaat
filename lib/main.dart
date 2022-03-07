@@ -41,14 +41,16 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-                color: Color(0xff535050),
-                width: parentWidth,
-                child: SvgPicture.asset(
-                  'assets/Background.svg',
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  fit: BoxFit.fitWidth,
-                )),
+            SafeArea(
+              child: Container(
+                  color: Color(0xff535050),
+                  width: parentWidth,
+                  child: SvgPicture.asset(
+                    'assets/Background.svg',
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    fit: BoxFit.fitWidth,
+                  )),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Column(
@@ -99,18 +101,19 @@ class _MyHomePageState extends State<MyHomePage> {
               width: null,
               margin: EdgeInsets.symmetric(horizontal: 50),
             )),
-             Expanded(
-               child: Container(
-                 margin: EdgeInsets.only(left: 30),
-                 alignment: Alignment.bottomLeft,
-                 child: Text('Sign up now to start \nsharing, selling and buying notes!',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500)),
-               ),
-             ),
-             SizedBox(height: 20)
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 30),
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                    'Sign up now to start \nsharing, selling and buying notes!',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500)),
+              ),
+            ),
+            SizedBox(height: 20)
           ],
         ),
         persistentFooterButtons: [
