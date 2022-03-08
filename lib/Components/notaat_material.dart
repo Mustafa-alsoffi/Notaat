@@ -8,9 +8,10 @@ Widget UIButton({
   double? width,
   EdgeInsetsGeometry? margin,
   Color? textColor,
+  required void Function()? onPressed
 }) =>
     TextButton(
-        onPressed: () {},
+        onPressed: onPressed,
         child: Container(
             alignment: alignment,
             width: width,
