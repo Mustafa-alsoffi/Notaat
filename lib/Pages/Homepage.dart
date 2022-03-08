@@ -58,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20),
                   Container(
@@ -73,17 +75,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       future: countries,
                       builder: (Buildcontext, snapshot) {
                         if (snapshot.hasData) {
-                          return DropdownButton(
-                            hint: Text('Choose a country',
-                                style: TextStyle(color: Colors.white)),
-                            items: snapshot.data
-                                ?.map<DropdownMenuItem<String>>((value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (_) {},
+                          return Container(
+                            width: 250,
+                            child: ButtonTheme(
+                              alignedDropdown: true,
+                              child: DropdownButton(isExpanded: true,
+                                hint: Text('Choose a country',
+                                    style: TextStyle(color: Colors.white)),
+                                items: snapshot.data
+                                    ?.map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (_) {},
+                              ),
+                            ),
                           );
                         } else if (snapshot.hasError) {
                           return Text('$snapshot.error');
@@ -91,17 +99,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         return CircularProgressIndicator();
                       }),
                   SizedBox(height: 15 * 2),
-                  DropdownButton(
-                    hint: Text('Choose a university',
-                        style: TextStyle(color: Colors.white, fontSize: 15)),
-                    items: ['UTM', 'University of AL-Razi', 'UM', 'UCSI']
-                        .map((String value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
+                  Container(
+                    width: 250,
+                    child: ButtonTheme(
+                     alignedDropdown: true, 
+                      child: DropdownButton(
+                        hint: Text('Choose a university',
+                            style: TextStyle(color: Colors.white,)),
+                        items: ['UTM', 'University of AL-Razi Univers', 'UM', 'UCSI']
+                            .map((String value) {
+                          return DropdownMenuItem(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (_) {},
+                      ),
+                    ),
                   ),
                   SizedBox(height: 25 * 2),
                 ],
