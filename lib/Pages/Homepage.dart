@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../Components/notaat_material.dart';
-
+import './Login.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (Buildcontext, snapshot) {
                         if (snapshot.hasData) {
                           return Container(
-                            width: 250,
+                            width: parentWidth * 0.7,
                             child: ButtonTheme(
                               alignedDropdown: true,
                               child: DropdownButton(isExpanded: true,
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       }),
                   SizedBox(height: 15 * 2),
                   Container(
-                    width: 250,
+                    width: parentWidth * 0.7,
                     child: ButtonTheme(
                      alignedDropdown: true, 
                       child: DropdownButton(
@@ -149,13 +149,19 @@ class _MyHomePageState extends State<MyHomePage> {
         persistentFooterButtons: [
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             UIButton(
-                text: 'Login',
+              text: 'Login',
                 textColor: Colors.white,
                 alignment: Alignment.center,
                 color: Color(0xff7B9DCA),
                 height: 40,
                 width: parentWidth * 0.3,
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginPage()),
+  );
+                }),
             SizedBox(width: parentWidth * 0.2),
             UIButton(
                 text: 'Sign up',
