@@ -1,26 +1,8 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import './Pages/Homepage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../Components/notaat_material.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Notaat',
-      debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Notaat Homepage'),
-    );
-  }
-}
-<<<<<<< HEAD
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -45,9 +27,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                   color: Color(0xff535050),
                   width: parentWidth,
+                  height: MediaQuery.of(context).size.width * 0.5,
                   child: SvgPicture.asset(
                     'assets/Background.svg',
-                    height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.3,
                     fit: BoxFit.fitWidth,
                   )),
             ),
@@ -74,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }).toList(),
                     onChanged: (_) {},
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15 * 2),
                   DropdownButton(
                     hint: Text(' Choose a university   ',
                         style: TextStyle(color: Colors.white, fontSize: 15)),
@@ -87,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }).toList(),
                     onChanged: (_) {},
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 25 * 2),
                 ],
               ),
             ),
@@ -101,19 +84,18 @@ class _MyHomePageState extends State<MyHomePage> {
               width: null,
               margin: EdgeInsets.symmetric(horizontal: 50),
             )),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 30),
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                    'Sign up now to start \nsharing, selling and buying notes!',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500)),
-              ),
-            ),
-            SizedBox(height: 20)
+             Expanded(
+               child: Container(
+                 margin: EdgeInsets.only(left: 30),
+                 alignment: Alignment.bottomLeft,
+                 child: Text('Sign up now to start \nsharing, selling and buying notes!',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500)),
+               ),
+             ),
+             SizedBox(height: 20)
           ],
         ),
         persistentFooterButtons: [
@@ -139,5 +121,3 @@ class _MyHomePageState extends State<MyHomePage> {
         ]);
   }
 }
-=======
->>>>>>> b895176a5cb6f4c3a9f3d8930b7d78b3152d7eef
