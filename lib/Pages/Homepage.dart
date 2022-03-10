@@ -46,14 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             SafeArea(
               child: Container(
-                  constraints: BoxConstraints(maxHeight: 500),
+                      constraints: BoxConstraints(maxHeight: 475),
                   color: Color(0xffFFFEEC),
                   width: parentWidth,
                   height: MediaQuery.of(context).size.width * 0.5,
                   child: SvgPicture.asset(
                     'assets/Background.svg',
-                    fit: BoxFit.cover,
-                  )),
+                        fit: BoxFit.fill,
+                      ))
             ),
             Padding(
               padding: const EdgeInsets.only(left: 30),
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         } else if (snapshot.hasError) {
-                          return Text('$snapshot.error');
+                          return SizedBox(width: 300, child: Text('$snapshot.error'));
                         }
                         return CircularProgressIndicator();
                       }),
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             .map((String value) {
                           return DropdownMenuItem(
                             value: value,
-                            child: Text(value),
+                            child: SizedBox(width: 300, child: Text(value)),
                           );
                         }).toList(),
                         onChanged: (_) {},
