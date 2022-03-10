@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../Components/notaat_material.dart';
+import 'package:notaat/shared/countryfetch_cubit.dart';
+import '../components/notaat_material.dart';
+import '../models/country.dart';
 import './Login.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -15,24 +18,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List> countries;
-  Future<List> getCountries() async {
-    var response =
-        await http.get(Uri.parse('https://restcountries.com/v2/all'));
-    var responseJson = json.decode(response.body);
-    if (response.statusCode == 200) {
-      return (responseJson).map((country) => country['name']).toList();
-    } else {
-      throw Exception('Failed to load countries');
-    }
-  }
 
   void getUniversities() async {}
 
   @override
   void initState() {
     super.initState();
-    countries = getCountries();
   }
 
   @override
@@ -45,21 +36,20 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SafeArea(
-              child: Container(
-                      constraints: BoxConstraints(maxHeight: 475),
-                  color: Color(0xffFFFEEC),
-                  width: parentWidth,
-                  height: MediaQuery.of(context).size.width * 0.5,
-                  child: SvgPicture.asset(
-                    'assets/Background.svg',
-                        fit: BoxFit.fill,
-                      ))
-            ),
+                child: Container(
+                    constraints: BoxConstraints(maxHeight: 475),
+                    color: Color(0xffFFFEEC),
+                    width: parentWidth,
+                    height: MediaQuery.of(context).size.width * 0.5,
+                    child: SvgPicture.asset(
+                      'assets/Background.svg',
+                      fit: BoxFit.fill,
+                    ))),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20),
                   Container(
@@ -71,51 +61,58 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontWeight: FontWeight.w500)),
                   ),
                   SizedBox(height: 20),
-                  FutureBuilder<List>(
-                      future: countries,
-                      builder: (Buildcontext, snapshot) {
-                        if (snapshot.hasData) {
-                          return Container(
-                            width: parentWidth * 0.7,
-                            child: ButtonTheme(
-                              alignedDropdown: true,
-                              child: DropdownButton(isExpanded: true,
-                                hint: Text('Choose a country',
-                                    style: TextStyle(color: Colors.white)),
-                                items: snapshot.data
-                                    ?.map<DropdownMenuItem<String>>((value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          return SizedBox(width: 300, child: Text('$snapshot.error'));
-                        }
+                  BlocBuilder<CountryfetchCubit, CountryfetchState>(
+                    builder: (context, state) {
+                      if (state is CountryfetchLoading) {
                         return CircularProgressIndicator();
-                      }),
+                      } else if (state is CountryfetchStateLoaded) {
+                        return UIDropdownButton(
+                            containerWidth: parentWidth * 0.7,
+                            hint: 'Choose a country',
+                            values: state.countriesList.map((Country value) {
+                              return DropdownMenuItem(
+                                value: value.name,
+                                child: SizedBox(
+                                    width: 300, child: Text(value.name)),
+                              );
+                            }).toList(),
+                            onChange: (_) {},
+                            textColor: Colors.white);
+                      } else {
+                        return Text('Error');
+                      }
+                    },
+                  ),
                   SizedBox(height: 15 * 2),
-                  Container(
-                    width: parentWidth * 0.7,
-                    child: ButtonTheme(
-                     alignedDropdown: true, 
-                      child: DropdownButton(
-                        hint: Text('Choose a university',
-                            style: TextStyle(color: Colors.white,)),
-                        items: ['UTM', 'University of AL-Razi Univers', 'UM', 'UCSI']
-                            .map((String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: SizedBox(width: 300, child: Text(value)),
-                          );
-                        }).toList(),
-                        onChanged: (_) {},
-                      ),
-                    ),
+                  BlocBuilder<CountryfetchCubit, CountryfetchState>(
+                    builder: (context, state) {
+                      if (state is CountryfetchLoading) {
+                        return CircularProgressIndicator();
+                      } else if (state is CountryfetchStateLoaded) {
+                        return Container(
+                          width: parentWidth * 0.7,
+                          child: ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              hint: Text('Choose a university',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  )),
+                              items: state.countriesList.map((Country value) {
+                                return DropdownMenuItem(
+                                  value: value.name,
+                                  child: SizedBox(
+                                      width: 300, child: Text(value.name)),
+                                );
+                              }).toList(),
+                              onChanged: (_) {},
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Text('Error');
+                      }
+                    },
                   ),
                   SizedBox(height: 25 * 2),
                 ],
@@ -130,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 40,
                     width: null,
                     margin: EdgeInsets.symmetric(horizontal: 50),
-                    onPressed: getCountries)),
+                    onPressed: (){})),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 30),
@@ -149,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
         persistentFooterButtons: [
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             UIButton(
-              text: 'Login',
+                text: 'Login',
                 textColor: Colors.white,
                 alignment: Alignment.center,
                 color: Color(0xff7B9DCA),
@@ -158,9 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginPage()),
-  );
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
                 }),
             SizedBox(width: parentWidth * 0.2),
             UIButton(
