@@ -18,6 +18,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String? countrySelected, universitySelected;
   void getUniversities() async {}
 
   @override
@@ -25,7 +26,23 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  //* This function to update the hint in the dropdown button
+  void selectDropdownItem(String? value, int index) {
+    setState(() {
+      switch (index) {
+        case 0:
+          countrySelected = value;
+          universitySelected = null;
+          break;
+        case 1:
+          universitySelected = value;
+          break;
+      }
+    });
+  }
+
   void submitCountryName(BuildContext context, String countryName) {
+    selectDropdownItem(countryName, 0);
     final universityCubit = BlocProvider.of<UniversityCubit>(context);
     universityCubit.fetchUniversityAPI(countryName);
   }
@@ -68,11 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   BlocBuilder<CountryfetchCubit, CountryfetchState>(
                     builder: (context, state) {
                       if (state is CountryfetchLoading) {
-                        return CircularProgressIndicator();
+                        return CircularProgressIndicator(color: Colors.white);
                       } else if (state is CountryfetchStateLoaded) {
                         return UIDropdownButton(
                             containerWidth: parentWidth * 0.7,
-                            hint: 'Choose a country',
+                            hint: countrySelected ?? 'Choose a country',
                             values: state.countriesList.map((Country value) {
                               return DropdownMenuItem(
                                 value: value.name,
@@ -85,38 +102,40 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                             textColor: Colors.white);
                       } else {
-                        return SnackBar(content: Text('Error loading list of countries'));
+                        return SnackBar(
+                            content: Text('Error loading list of countries'));
                       }
                     },
                   ),
                   SizedBox(height: 15 * 2),
-                       BlocBuilder<UniversityCubit, UniversityState>(
-                        builder: (context, state) {
-                          if (state is UniversityfetchLoading) {
-                            return CircularProgressIndicator();
-                          } else if (state is UniversityfetchStateLoaded) {
-                            return UIDropdownButton(
-                                containerWidth: parentWidth * 0.7,
-                                hint: 'Choose a university',
-                                values: state.universitiesList
-                                    .map((University value) {
-                                  return DropdownMenuItem(
-                                    value: value.name,
+                  BlocBuilder<UniversityCubit, UniversityState>(
+                    builder: (context, state) {
+                      if (state is UniversityfetchLoading) {
+                        return CircularProgressIndicator(color: Colors.white);
+                      } else if (state is UniversityfetchStateLoaded) {
+                        return UIDropdownButton(
+                            containerWidth: parentWidth * 0.7,
+                            hint: universitySelected ?? 'Choose a university',
+                            values:
+                                state.universitiesList.map((University value) {
+                              return DropdownMenuItem(
+                                value: value.name,
+                                child: SizedBox(
+                                    width: 300,
                                     child: SizedBox(
                                         width: 300,
-                                        child: SizedBox(width: 300, child: Text(value.name ?? 'None'))),
-                                  );
-                                }).toList() ,
-                                onChange: (_) {},
-                                textColor: Colors.white);
-                          } else if(state is UniversityfetchInitial){
-
-                            return SnackBar(content: Text('This is initial state'));
-                          } else {
-                            return SnackBar(content: Text('Error loading list of universities'));
-                          }
-                        },
-                      ),
+                                        child: Text(value.name ?? 'None'))),
+                              );
+                            }).toList(),
+                            onChange: (value) {selectDropdownItem(value, 1);},
+                            textColor: Colors.white);
+                      } else {
+                        return SnackBar(
+                            content:
+                                Text('Error loading list of universities'));
+                      }
+                    },
+                  ),
                   SizedBox(height: 25 * 2),
                 ],
               ),
