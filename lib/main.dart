@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notaat/cubit/university_cubit.dart';
 import 'package:notaat/service/api_service.dart';
-import 'package:notaat/shared/countryfetch_cubit.dart';
+import 'package:notaat/cubit/countryfetch_cubit.dart';
 import './Pages/Homepage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +27,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<CountryfetchCubit>(
             create: (context) => CountryfetchCubit(
                 apiRepository: ApiRepository(apiService: apiService))..fetchCountryAPI()),
+        BlocProvider<UniversityCubit>(
+            create: (context) => UniversityCubit(
+                apiRepository: ApiRepository(apiService: apiService))
+              ..fetchUniversityAPI(null)),
       ],
       child: MaterialApp(
         title: 'Notaat',

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:notaat/shared/countryfetch_cubit.dart';
+import 'package:notaat/cubit/countryfetch_cubit.dart';
 import '../components/notaat_material.dart';
+import '../cubit/university_cubit.dart';
 import '../models/country.dart';
+import '../models/university.dart';
 import './Login.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,12 +18,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   void getUniversities() async {}
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void submitCountryName(BuildContext context, String countryName) {
+    final universityCubit = BlocProvider.of<UniversityCubit>(context);
+    universityCubit.fetchUniversityAPI(countryName);
   }
 
   @override
@@ -76,44 +80,43 @@ class _MyHomePageState extends State<MyHomePage> {
                                     width: 300, child: Text(value.name)),
                               );
                             }).toList(),
-                            onChange: (_) {},
+                            onChange: (countryName) {
+                              submitCountryName(context, countryName!);
+                            },
                             textColor: Colors.white);
                       } else {
-                        return Text('Error');
+                        return SnackBar(content: Text('Error loading list of countries'));
                       }
                     },
                   ),
                   SizedBox(height: 15 * 2),
-                  BlocBuilder<CountryfetchCubit, CountryfetchState>(
-                    builder: (context, state) {
-                      if (state is CountryfetchLoading) {
-                        return CircularProgressIndicator();
-                      } else if (state is CountryfetchStateLoaded) {
-                        return Container(
-                          width: parentWidth * 0.7,
-                          child: ButtonTheme(
-                            alignedDropdown: true,
-                            child: DropdownButton(
-                              hint: Text('Choose a university',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  )),
-                              items: state.countriesList.map((Country value) {
-                                return DropdownMenuItem(
-                                  value: value.name,
-                                  child: SizedBox(
-                                      width: 300, child: Text(value.name)),
-                                );
-                              }).toList(),
-                              onChanged: (_) {},
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Text('Error');
-                      }
-                    },
-                  ),
+                       BlocBuilder<UniversityCubit, UniversityState>(
+                        builder: (context, state) {
+                          if (state is UniversityfetchLoading) {
+                            return CircularProgressIndicator();
+                          } else if (state is UniversityfetchStateLoaded) {
+                            return UIDropdownButton(
+                                containerWidth: parentWidth * 0.7,
+                                hint: 'Choose a university',
+                                values: state.universitiesList
+                                    .map((University value) {
+                                  return DropdownMenuItem(
+                                    value: value.name,
+                                    child: SizedBox(
+                                        width: 300,
+                                        child: SizedBox(width: 300, child: Text(value.name ?? 'None'))),
+                                  );
+                                }).toList(),
+                                onChange: (_) {},
+                                textColor: Colors.white);
+                          } else if(state is UniversityfetchInitial){
+
+                            return SnackBar(content: Text('This is initial state'));
+                          } else {
+                            return SnackBar(content: Text('Error loading list of universities'));
+                          }
+                        },
+                      ),
                   SizedBox(height: 25 * 2),
                 ],
               ),
@@ -127,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     height: 40,
                     width: null,
                     margin: EdgeInsets.symmetric(horizontal: 50),
-                    onPressed: (){})),
+                    onPressed: () {})),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 30),

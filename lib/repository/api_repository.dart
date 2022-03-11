@@ -1,4 +1,5 @@
 import '../models/country.dart';
+import '../models/university.dart';
 import '../service/api_service.dart';
 
 class ApiRepository {
@@ -10,6 +11,14 @@ class ApiRepository {
     if (response != null) {
       final data = response.data as List<dynamic>;
       return data.map((country /*each json object*/) => Country.fromMap(country)).toList();
+    }
+  }
+
+  Future<List<University>?> getUniversityList(String? countryName) async {
+    final response = await apiService.getUniversityData(countryName);
+    if (response != null) {
+      final data = response.data as List<dynamic>;
+      return data.map((university/*each json object*/) => University.fromJson(university)).toList();
     }
   }
 }
