@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         width: 300,
                                         child: SizedBox(width: 300, child: Text(value.name ?? 'None'))),
                                   );
-                                }).toList(),
+                                }).toList() ,
                                 onChange: (_) {},
                                 textColor: Colors.white);
                           } else if(state is UniversityfetchInitial){
