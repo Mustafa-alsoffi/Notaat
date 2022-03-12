@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final parentWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Color(0xff535050),
         body: Column(
@@ -60,11 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                     constraints: BoxConstraints(maxHeight: 475),
                     color: Color(0xffFFFEEC),
-                    width: parentWidth,
+                    width: screenWidth,
                     height: MediaQuery.of(context).size.width * 0.5,
                     child: SvgPicture.asset(
                       'assets/Background.svg',
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ))),
             Padding(
               padding: const EdgeInsets.only(left: 30),
@@ -88,13 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         return CircularProgressIndicator(color: Colors.white);
                       } else if (state is CountryfetchStateLoaded) {
                         return UIDropdownButton(
-                            containerWidth: parentWidth * 0.7,
+                            containerWidth: screenWidth * 0.6,
                             hint: countrySelected ?? 'Choose a country',
                             values: state.countriesList.map((Country value) {
                               return DropdownMenuItem(
                                 value: value.name,
                                 child: SizedBox(
-                                    width: 300, child: Text(value.name)),
+                                    width: screenWidth * 0.6 , child: Text(value.name)),
                               );
                             }).toList(),
                             onChange: (countryName) {
@@ -113,22 +113,34 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (state is UniversityfetchLoading) {
                         return CircularProgressIndicator(color: Colors.white);
                       } else if (state is UniversityfetchStateLoaded) {
-                        return UIDropdownButton(
-                            containerWidth: parentWidth * 0.7,
-                            hint: universitySelected ?? 'Choose a university',
-                            values:
-                                state.universitiesList.map((University value) {
-                              return DropdownMenuItem(
-                                value: value.name,
-                                child: SizedBox(
-                                    width: 300,
-                                    child: SizedBox(
-                                        width: 300,
-                                        child: Text(value.name ?? 'None'))),
-                              );
-                            }).toList(),
-                            onChange: (value) {selectDropdownItem(value, 1);},
-                            textColor: Colors.white);
+                        if (state.universitiesList.length == 0 &&
+                            countrySelected != null)
+                          return Container(
+                              child: Text(
+                                  'Sorry, we have no list of universities for the chosen country.',
+                                  style: TextStyle(color: Colors.red)));
+                        else
+                          return UIDropdownButton(
+                              containerWidth: screenWidth * 0.6,
+                              hint: universitySelected ?? 'Choose a university',
+                              values: state.universitiesList
+                                  .map((University value) {
+                                return DropdownMenuItem(
+                                  value: value.name,
+                                  child: SizedBox(
+                                      width: 300,
+                                      child: SizedBox(
+                                          width: 300,
+                                          child: FittedBox(
+                                              fit: BoxFit.fitWidth,
+                                              child:
+                                                  SizedBox(width: screenWidth * 0.6,child: Text(value.name ?? 'None'))))),
+                                );
+                              }).toList(),
+                              onChange: (value) {
+                                selectDropdownItem(value, 1);
+                              },
+                              textColor: Colors.white);
                       } else {
                         return SnackBar(
                             content:
@@ -173,21 +185,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.center,
                 color: Color(0xff7B9DCA),
                 height: 40,
-                width: parentWidth * 0.3,
+                width: screenWidth * 0.3,
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
                 }),
-            SizedBox(width: parentWidth * 0.2),
+            SizedBox(width: screenWidth * 0.2),
             UIButton(
                 text: 'Sign up',
                 textColor: Color(0xff535050),
                 alignment: Alignment.center,
                 color: Colors.white,
                 height: 40,
-                width: parentWidth * 0.3,
+                width: screenWidth * 0.3,
                 onPressed: () {})
           ])
         ]);

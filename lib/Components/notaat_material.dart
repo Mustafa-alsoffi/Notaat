@@ -39,13 +39,19 @@ Widget UIDropdownButton({
       width: containerWidth ?? 200,
       child: ButtonTheme(
         alignedDropdown: true,
-        child: DropdownButton(
-          hint: Text(hint ?? 'No hint',
-              style: TextStyle(
-                color: textColor ?? Colors.white,
-              )),
-          items: values,
-          onChanged: onChange,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: DropdownButton(
+            hint: SizedBox(
+              width: containerWidth,
+              child: Text(hint ?? 'No hint',
+                  style: TextStyle(
+                    color: textColor ?? Colors.white,
+                  )),
+            ),
+            items: values,
+            onChanged: onChange,
+          ),
         ),
       ),
     );
