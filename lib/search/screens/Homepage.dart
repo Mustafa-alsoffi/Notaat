@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:notaat/cubit/countryfetch_cubit.dart';
-import '../components/notaat_material.dart';
+import 'package:notaat/search/cubit/countryfetch_cubit.dart';
 import '../cubit/university_cubit.dart';
 import '../models/country.dart';
 import '../models/university.dart';
-import './Login.dart';
+import '../shared/components/notaat_material.dart';
+import 'package:notaat/authentication/authentication.dart' as auth;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -19,7 +19,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String? countrySelected, universitySelected;
-  void getUniversities() async {}
 
   @override
   void initState() {
@@ -189,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    MaterialPageRoute(builder: (context) => auth.Login_Users()),
                   );
                 }),
             SizedBox(width: screenWidth * 0.2),
