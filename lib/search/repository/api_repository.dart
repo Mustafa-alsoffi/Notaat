@@ -10,7 +10,7 @@ class ApiRepository {
     final response = await apiService.getCountryData();
     if (response != null) {
       final data = response.data as List<dynamic>;
-      return data.map((country /*each json object*/) => Country.fromMap(country)).toList();
+      return data.map((country /*each json object*/) => Country.fromJson(country)).toList();
     }
   }
 
