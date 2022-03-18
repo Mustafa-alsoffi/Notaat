@@ -93,7 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               return DropdownMenuItem(
                                 value: value.name,
                                 child: SizedBox(
-                                    width: screenWidth * 0.6 , child: Text(value.name)),
+                                    width: screenWidth * 0.6,
+                                    child: Text(value.name)),
                               );
                             }).toList(),
                             onChange: (countryName) {
@@ -132,8 +133,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           width: 300,
                                           child: FittedBox(
                                               fit: BoxFit.fitWidth,
-                                              child:
-                                                  SizedBox(width: screenWidth * 0.6,child: Text(value.name ?? 'None'))))),
+                                              child: SizedBox(
+                                                  width: screenWidth * 0.6,
+                                                  child: Text(
+                                                      value.name ?? 'None'))))),
                                 );
                               }).toList(),
                               onChange: (value) {
@@ -173,7 +176,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontWeight: FontWeight.w500)),
               ),
             ),
-            SizedBox(height: 20)
           ],
         ),
         persistentFooterButtons: [
