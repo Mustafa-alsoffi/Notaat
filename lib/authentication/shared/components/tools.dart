@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:notaat/authentication/modules/login_screen/join.dart';
+import 'package:notaat/authentication/screens/login_screen/join.dart';
 import 'package:notaat/authentication/shared/remote/shared_helper.dart';
 
 //Button

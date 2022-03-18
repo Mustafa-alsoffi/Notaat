@@ -10,10 +10,10 @@ import 'package:notaat/authentication/authentication.dart' as auth;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-   Firebase.initializeApp();
-  await auth.DioHelper.init();
+  //  Firebase.initializeApp();
+  // await auth.DioHelper.init();
   await auth.SharedHelper.initshared();
-  var join = auth.SharedHelper.getdata(key: 'join');
+  // var join = auth.SharedHelper.getdata(key: 'join');
   runApp(MyApp(
     apiService: search.ApiService(),
   ));
