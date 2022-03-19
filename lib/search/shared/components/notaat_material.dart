@@ -30,6 +30,7 @@ Widget UIButton(
 
 Widget UIDropdownButton({
   required double? containerWidth,
+  required double? containerHeight,
   required String? hint,
   required List<DropdownMenuItem<String>>? values,
   required void Function(String?)? onChange,
@@ -37,6 +38,7 @@ Widget UIDropdownButton({
 }) =>
     Container(
       width: containerWidth ?? 200,
+      height: containerHeight ?? 100,
       child: ButtonTheme(
         alignedDropdown: true,
         child: FittedBox(
