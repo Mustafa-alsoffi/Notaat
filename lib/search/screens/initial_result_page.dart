@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../shared/components/sign_bar_buttons.dart';
+import 'package:notaat/authentication/authentication.dart' as auth;
 
 class InitResutlPage extends StatelessWidget {
   const InitResutlPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -33,6 +36,16 @@ class InitResutlPage extends StatelessWidget {
           },
         ),
       ),
+      persistentFooterButtons: [
+        SignBottomBarButtons(
+            screenWidth: screenWidth,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => auth.Login_Users()),
+              );
+            })
+      ],
     );
   }
 }
