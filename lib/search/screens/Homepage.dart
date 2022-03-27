@@ -6,6 +6,8 @@ import '../cubit/university_cubit.dart';
 import '../models/country.dart';
 import '../models/university.dart';
 import '../shared/components/notaat_material.dart';
+import '../shared/components/sign_bar_buttons.dart';
+import './initial_result_page.dart';
 import 'package:notaat/authentication/authentication.dart' as auth;
 
 class MyHomePage extends StatefulWidget {
@@ -175,7 +177,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: constraint.maxHeight * 0.05,
                           width: constraint.maxWidth * 0.8,
                           margin: EdgeInsets.symmetric(horizontal: 50),
-                          onPressed: () {})),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InitResutlPage()),
+                            );
+                          })),
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(left: 30),
@@ -195,30 +203,12 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }),
         persistentFooterButtons: [
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            UIButton(
-                text: 'Login',
-                textColor: Colors.white,
-                alignment: Alignment.center,
-                color: Color(0xff7B9DCA),
-                height: 40,
-                width: screenWidth * 0.3,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => auth.Login_Users()),
-                  );
-                }),
-            SizedBox(width: screenWidth * 0.2),
-            UIButton(
-                text: 'Sign up',
-                textColor: Color(0xff535050),
-                alignment: Alignment.center,
-                color: Colors.white,
-                height: 40,
-                width: screenWidth * 0.3,
-                onPressed: () {})
-          ])
+          SignBottomBarButtons(screenWidth: screenWidth, onPressed:() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => auth.Login_Users()),
+            );
+          })
         ]);
   }
 }
