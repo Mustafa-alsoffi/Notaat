@@ -20,21 +20,26 @@ class InitResutlPage extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Center(
-        child: ListView.builder(
-          itemCount: 20,
-          itemBuilder: (context, position) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  position.toString(),
-                  style: TextStyle(fontSize: 22.0),
-                ),
-              ),
-            );
-          },
-        ),
+      body: Column(
+        children: [
+          Row(children: [Text('Notes for UniversityName'), IconButton(onPressed: (){}, icon: Icon(Icons.sort))],),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 20,
+              itemBuilder: (context, position) {
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      position.toString(),
+                      style: TextStyle(fontSize: 22.0),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       persistentFooterButtons: [
         SignBottomBarButtons(
